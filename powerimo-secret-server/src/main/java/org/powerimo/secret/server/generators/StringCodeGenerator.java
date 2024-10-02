@@ -13,10 +13,15 @@ import java.security.SecureRandom;
 public class StringCodeGenerator implements CodeGenerator {
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private final AppProperties appProperties;
+    private final static int DEFAULT_LENGTH = 64;
 
     public String generate() {
         SecureRandom random = new SecureRandom();
         int length = appProperties.getDesiredCodeLength();
+        if (length <= 0) {
+            log.warn("Desired length of the code is not specified. Default length will be used: {}", DEFAULT_LENGTH);
+            length = DEFAULT_LENGTH;
+        }
         StringBuilder sb = new StringBuilder(length);
 
         for (int i = 0; i < length; i++) {

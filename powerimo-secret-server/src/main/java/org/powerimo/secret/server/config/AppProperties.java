@@ -44,4 +44,9 @@ public class AppProperties {
      * Secret key used to encrypt\decrypt secret data in database
      */
     private String cryptKey = "SecretKey";
+
+    /**
+     * Enables ServiceController (/service) endpoint
+     */
+    private boolean serviceEndpointEnabled = false;
 }

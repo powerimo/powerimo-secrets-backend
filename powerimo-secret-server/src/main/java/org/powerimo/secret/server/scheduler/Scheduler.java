@@ -18,7 +18,6 @@ public class Scheduler {
     @Scheduled(timeUnit = TimeUnit.HOURS, fixedRate = 1L)
     public void cleanupExpired() {
         log.info("Planned cleanup initiated");
-        secretManagerService.cleanupExpiredSecrets(CLEANUP_SOURCE);
-        secretManagerService.cleanupUsedSecrets(CLEANUP_SOURCE);
+        secretManagerService.cleanup(CLEANUP_SOURCE);
     }
 }

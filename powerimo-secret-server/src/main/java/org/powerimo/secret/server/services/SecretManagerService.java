@@ -274,4 +274,10 @@ public class SecretManagerService {
         }
     }
 
+    @Transactional
+    public void cleanup(String source) {
+        cleanupExpiredSecrets(source);
+        cleanupUsedSecrets(source);
+    }
+
 }

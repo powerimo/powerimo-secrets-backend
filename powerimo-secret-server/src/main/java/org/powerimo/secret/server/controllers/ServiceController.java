@@ -3,6 +3,7 @@ package org.powerimo.secret.server.controllers;
 import lombok.RequiredArgsConstructor;
 import org.powerimo.secret.api.models.ActionCompleted;
 import org.powerimo.secret.server.services.SecretManagerService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("service")
 @RequiredArgsConstructor
+@ConditionalOnProperty(value = "app.service-endpoint-enabled", havingValue = "true", matchIfMissing = false)
 public class ServiceController {
     private final SecretManagerService secretManagerService;
     private final static String CLEANUP_SOURCE = "ServiceController";
@@ -28,8 +30,7 @@ public class ServiceController {
         }
 
         CompletableFuture.runAsync(() -> {
-            secretManagerService.cleanupExpiredSecrets(CLEANUP_SOURCE);
-            secretManagerService.cleanupUsedSecrets(CLEANUP_SOURCE);
+            secretManagerService.cleanup(CLEANUP_SOURCE);
         });
 
         return ResponseEntity.ok(ActionCompleted.builder()

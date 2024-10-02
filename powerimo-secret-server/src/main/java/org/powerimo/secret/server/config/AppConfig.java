@@ -1,5 +1,6 @@
 package org.powerimo.secret.server.config;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.powerimo.secret.server.exceptions.InvalidConfigPropertyException;
@@ -9,8 +10,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
+@EnableScheduling
 @RequiredArgsConstructor
 @Slf4j
 public class AppConfig {
@@ -42,6 +45,19 @@ public class AppConfig {
             String message = "Generator bean (" + generatorBean.getClass().getCanonicalName() + ") is not implementing interface " + CodeGenerator.class.getCanonicalName();
             throw new InvalidConfigPropertyException(message);
         }
+    }
+
+    @PostConstruct
+    public void init() {
+        log.info("====================================");
+        log.info("Application configuration parameters");
+        log.info("====================================");
+        log.info("app.base-url: {}", appProperties.getBaseUrl());
+        log.info("app.service-endpoint-enabled: {}", appProperties.isServiceEndpointEnabled());
+        log.info("app.frontend-context-path: {}", appProperties.getFrontendContextPath());
+        log.info("app.generator-class: {}",appProperties.getGeneratorClass());
+        log.info("app.default-ttl: {}",appProperties.getDefaultTtl());
+        log.info("====================================");
     }
 
 }
