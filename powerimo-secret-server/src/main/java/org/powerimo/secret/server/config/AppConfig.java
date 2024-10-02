@@ -57,7 +57,12 @@ public class AppConfig {
         log.info("app.frontend-context-path: {}", appProperties.getFrontendContextPath());
         log.info("app.generator-class: {}",appProperties.getGeneratorClass());
         log.info("app.default-ttl: {}",appProperties.getDefaultTtl());
+        log.info("app.cleanup: {}",appProperties.isCleanup());
+        log.info("app.cleanup-cron: {}",appProperties.getCleanupCron());
         log.info("====================================");
     }
 
+    public String getCleanupCron() {
+        return appProperties.getCleanupCron();
+    }
 }

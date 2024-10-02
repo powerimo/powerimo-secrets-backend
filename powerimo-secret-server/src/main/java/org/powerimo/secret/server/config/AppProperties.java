@@ -24,6 +24,11 @@ public class AppProperties {
     /// Perform regular cleanup of expired secrets
     private boolean cleanup = true;
 
+    /**
+     * Cron-expression for cleanup
+     */
+    private String cleanupCron = "0 0 * * * *";
+
     /// if `true`: errors like 404, 400 will be redirected to frontend
     /// if `false`: errors will be returned as JSON (`ActionCompleted` action)
     private boolean redirectToFrontend = false;
@@ -49,4 +54,5 @@ public class AppProperties {
      * Enables ServiceController (/service) endpoint
      */
     private boolean serviceEndpointEnabled = false;
+
 }
