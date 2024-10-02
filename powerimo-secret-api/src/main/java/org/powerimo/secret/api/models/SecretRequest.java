@@ -1,8 +1,6 @@
-package org.powerimo.secret.api;
+package org.powerimo.secret.api.models;
 
 import lombok.*;
-
-import java.time.Instant;
 
 @Getter
 @Setter

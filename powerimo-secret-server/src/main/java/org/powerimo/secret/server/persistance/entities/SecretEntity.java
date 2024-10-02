@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.powerimo.secret.api.models.SecretInfo;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -21,11 +22,20 @@ public class SecretEntity {
     private String code;
     private String data;
     private Instant expiresAt;
-    private Integer hitCount;
-    private Integer hitLimit;
+    private Long hitCount;
+    private Long hitLimit;
     private String registrarHost;
-    private String registrarBrowserName;
-    private String registrarBrowserVersion;
+    private String registrarAgent;
     private Instant createdAt;
     private Instant updatedAt;
+
+    public SecretInfo dto() {
+        return SecretInfo.builder()
+                .expiresAt(expiresAt)
+                .hitCount(hitCount)
+                .hitLimit(hitLimit)
+                .code(code)
+                .createdAt(createdAt)
+                .build();
+    }
 }

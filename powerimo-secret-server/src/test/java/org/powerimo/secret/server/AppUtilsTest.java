@@ -20,21 +20,6 @@ class AppUtilsTest {
         var result = AppUtils.extractUserBrowserInfo(r);
         Assertions.assertNotNull(result);
         Assertions.assertEquals(userAgent, result.getUserAgent());
-        Assertions.assertEquals("CustomAgent", result.getBrowserName());
-        Assertions.assertEquals("1.0.0", result.getBrowserVersion());
-    }
-
-    @Test
-    void extractUserBrowserInfo_nonStandardBrowser() {
-        String userAgent = "CustomAgent";
-        var r = new MockHttpServletRequest();
-        r.addHeader("User-Agent", userAgent);
-
-        var result = AppUtils.extractUserBrowserInfo(r);
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(userAgent, result.getUserAgent());
-        Assertions.assertEquals("CustomAgent", result.getBrowserName());
-        Assertions.assertNull(result.getBrowserVersion());
     }
 
     @Test
@@ -43,7 +28,5 @@ class AppUtilsTest {
         var result = AppUtils.extractUserBrowserInfo(r);
         Assertions.assertNotNull(result);
         Assertions.assertNull(result.getUserAgent());
-        Assertions.assertNull(result.getBrowserName());
-        Assertions.assertNull(result.getBrowserVersion());
     }
 }

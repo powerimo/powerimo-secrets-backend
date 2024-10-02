@@ -1,4 +1,4 @@
-package org.powerimo.secret.api;
+package org.powerimo.secret.api.models;
 
 import lombok.*;
 
@@ -15,4 +15,5 @@ public class SecretInfo {
     private Instant createdAt;
     private Instant expiresAt;
     private long hitCount;
+    private Long hitLimit;
 }

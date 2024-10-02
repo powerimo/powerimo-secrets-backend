@@ -1,4 +1,4 @@
-drop table if exists secret_hit;
+drop table if exists secret_action;
 drop table if exists secret;
 
 drop table if exists databasechangeloglock;

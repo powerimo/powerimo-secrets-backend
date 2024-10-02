@@ -8,6 +8,7 @@ import org.powerimo.secret.server.generators.StringCodeGenerator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class AppConfig {
     private final ApplicationContext applicationContext;
 
     @Bean
+    @Primary
     public CodeGenerator codeGenerator() throws InvalidConfigPropertyException {
         Class<?> beanClass;
         try {

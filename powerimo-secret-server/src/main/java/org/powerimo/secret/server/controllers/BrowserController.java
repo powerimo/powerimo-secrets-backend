@@ -2,7 +2,6 @@ package org.powerimo.secret.server.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.powerimo.secret.server.AppUtils;
 import org.powerimo.secret.server.models.UserBrowserInfo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,7 @@ public class BrowserController {
 
     @GetMapping
     public ResponseEntity<UserBrowserInfo> getUserBrowserInfo(HttpServletRequest request) {
-        UserBrowserInfo data = AppUtils.extractUserBrowserInfo(request);
+        UserBrowserInfo data = new UserBrowserInfo(request);
         return ResponseEntity.ok(data);
     }
 }
