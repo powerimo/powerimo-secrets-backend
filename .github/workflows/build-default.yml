@@ -73,7 +73,7 @@ jobs:
       - name: Copy script to SSH server
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: .github/bash/deploy-server.sh
+          local: cicd/bash/deploy-server.sh
           remote: ~/bin/deploy-powerimo-secret-server.sh
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
