@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Build and deploy to QA
 
 on:
   push:
@@ -70,6 +70,15 @@ jobs:
       name: qa
 
     steps:
+      - name: Copy script to SSH server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: .github/bash/deploy-server.sh
+          remote: ~/bin/deploy-powerimo-secret-server.sh
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          privateKey : ${{ secrets.DEPLOY_USER_KEY }}
+          port: ${{ secrets.SSH_PORT }}
       - name: Deploy to Server
         if: github.ref == 'refs/heads/main'
         uses: appleboy/ssh-action@v0.1.7
@@ -79,5 +88,5 @@ jobs:
           key: ${{ secrets.DEPLOY_USER_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            echo 'TEST'
-            docker pull powerimo/powerimo-secret-backend:test
+            chmod +x ~/bin/deploy-powerimo-secret-server.sh
+            ~/bin/deploy-powerimo-secret-server.sh
