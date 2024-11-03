@@ -13,10 +13,18 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose environment'
+        required: true
+        default: 'qa'
+        options:
+          - qa
+          - prod
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -54,3 +62,22 @@ jobs:
 
     - name: Logout from Docker Hub
       run: docker logout
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ secrets.PROD_SERVER_URL }}
+
+    steps:
+      - name: Deploy to Server
+        if: github.ref == 'refs/heads/main'
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }} # Для PROD сервера
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_USER_KEY }}
+          script: |
+            echo 'TEST'
+            docker pull powerimo/powerimo-secret-backend:test
