@@ -93,4 +93,4 @@ jobs:
           script: |
             ls -lah ~/bin
             chmod +x ~/bin/deploy-powerimo-secret-server.sh
-            ~/bin/deploy-powerimo-secret-server.sh
+            ~/bin/deploy-powerimo-secret-server.sh "powerimo-secret-backend-qa" "powerimo/powerimo-secret-backend:test" "qa"
