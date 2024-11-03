@@ -90,5 +90,6 @@ jobs:
           key: ${{ secrets.DEPLOY_USER_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            ls -lah ~/bin
             chmod +x ~/bin/deploy-powerimo-secret-server.sh
             ~/bin/deploy-powerimo-secret-server.sh
