@@ -70,9 +70,13 @@ jobs:
       name: qa
 
     steps:
+      - name: Checkout scripts
+        uses: actions/checkout@v4
       - name: ls
         run: |
           ls -lah
+          echo "${PWD}"
+          ls -lah ./cicd
       - name: Copy script to SSH server
         uses: garygrossgarten/github-action-scp@release
         with:
