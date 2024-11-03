@@ -74,9 +74,10 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.HOST }} # Для PROD сервера
+          host: ${{ secrets.SSH_HOST }} # Для PROD сервера
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_USER_KEY }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
             echo 'TEST'
             docker pull powerimo/powerimo-secret-backend:test
