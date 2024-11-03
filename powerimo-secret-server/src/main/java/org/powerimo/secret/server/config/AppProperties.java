@@ -27,7 +27,7 @@ public class AppProperties {
     /**
      * Cron-expression for cleanup
      */
-    private String cleanupCron = "0 0 * * * *";
+    private String cleanupCron = "0 30 * * * *";
 
     /// if `true`: errors like 404, 400 will be redirected to frontend
     /// if `false`: errors will be returned as JSON (`ActionCompleted` action)
