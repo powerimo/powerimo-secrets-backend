@@ -73,16 +73,15 @@ jobs:
       - name: Checkout scripts
         uses: actions/checkout@v4
       - name: Copy script to SSH server
-        uses: garygrossgarten/github-action-scp@release
+        uses: nicklasfrahm/scp-action@main
         with:
-          local: cicd/bash/deploy-server.sh
-          remote: ~/bin/deploy-powerimo-secret-server.sh
+          direction: upload
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          privateKey : ${{ secrets.DEPLOY_USER_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-      - name: Deploy to Server
-        if: github.ref == 'refs/heads/main'
+          key: ${{ secrets.DEPLOY_USER_KEY }}
+          source: cicd/bash/deploy-server.sh
+          target: ~/bin/deploy-powerimo-secret-server.sh
+      - name: Deploy to QA
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
