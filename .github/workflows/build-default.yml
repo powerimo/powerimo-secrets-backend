@@ -70,6 +70,9 @@ jobs:
       name: qa
 
     steps:
+      - name: ls
+        run: |
+          ls -lah
       - name: Copy script to SSH server
         uses: garygrossgarten/github-action-scp@release
         with:
