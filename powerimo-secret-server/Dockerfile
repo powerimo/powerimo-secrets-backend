@@ -12,4 +12,4 @@ EXPOSE 8080/tcp
 
 WORKDIR "/app"
 
-CMD ["java", "-jar", "powerimo-secret-server.jar", "--spring.config.location=file:./config/application.yaml"]
+CMD ["java", "-jar", "powerimo-secret-server.jar"]

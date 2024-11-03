@@ -11,17 +11,6 @@ name: Build and deploy to QA
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Choose environment'
-        required: true
-        default: 'qa'
-        options:
-          - qa
-          - prod
 
 jobs:
   build:
