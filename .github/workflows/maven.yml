@@ -63,18 +63,37 @@ jobs:
     - name: Logout from Docker Hub
       run: docker logout
 
-  deploy:
+  deploy-qa:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: ${{ inputs.environment }}
+      name: qa
 
     steps:
       - name: Deploy to Server
         if: github.ref == 'refs/heads/main'
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.SSH_HOST }} # Для PROD сервера
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_USER_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo 'TEST'
+            docker pull powerimo/powerimo-secret-backend:test
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: prod
+
+    steps:
+      - name: Deploy to Server
+        if: github.ref == 'refs/heads/main'
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_USER_KEY }}
           port: ${{ secrets.SSH_PORT }}
