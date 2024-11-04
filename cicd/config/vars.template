@@ -2,3 +2,4 @@
 SPRING_DATASOURCE_URL=jdbc:postgres://localhost:5432/secrets-dev
 SPRING_DATASOURCE_USERNAME=user
 SPRING_DATASOURCE_PASSWORD=password
+APP_ENV=dev
