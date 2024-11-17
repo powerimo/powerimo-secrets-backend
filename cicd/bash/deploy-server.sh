@@ -10,20 +10,22 @@ echo "env: ${APP_ENV}"
 
 # read local vars
 echo "Sourcing vars..."
-source ~/config/${CONTAINER_NAME}/vars
+# shellcheck disable=SC1090
+source ~/config/"${CONTAINER_NAME}"/vars
 
 echo "Stop previous launched container"
-docker stop ${CONTAINER_NAME} > /dev/null
-docker rm ${CONTAINER_NAME} > /dev/null
-docker pull ${IMAGE_NAME}
+docker stop "${CONTAINER_NAME}" > /dev/null
+docker rm "${CONTAINER_NAME}" > /dev/null
+docker pull "${IMAGE_NAME}"
 
 echo "Starting the container..."
 docker run -d --restart unless-stopped \
-    --name=${CONTAINER_NAME} \
+    --name="${CONTAINER_NAME}" \
     -e SPRING_DATASOURCE_URL="${SPRING_DATASOURCE_URL}" \
     -e SPRING_DATASOURCE_USERNAME="${SPRING_DATASOURCE_USERNAME}" \
     -e SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD}" \
-    -e APP_ENV=${APP_ENV} \
+    -e APP_ENV="${APP_ENV}" \
+    -e APP_BASE_URL="${APP_BASE_URL}" \
     -p 15510:8080 \
     "${IMAGE_NAME}"
 
