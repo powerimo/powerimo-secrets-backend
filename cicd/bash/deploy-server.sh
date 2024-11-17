@@ -21,7 +21,7 @@ echo "Starting the container..."
 docker run -d --restart unless-stopped \
     --name=${CONTAINER_NAME} \
     -e SPRING_DATASOURCE_URL="${SPRING_DATASOURCE_URL}" \
-    -e SPRING_DATASOURCE_USER="${SPRING_DATASOURCE_USER}" \
+    -e SPRING_DATASOURCE_USERNAME="${SPRING_DATASOURCE_USERNAME}" \
     -e SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD}" \
     -e APP_ENV=${APP_ENV} \
     -p 15510:8080 \
