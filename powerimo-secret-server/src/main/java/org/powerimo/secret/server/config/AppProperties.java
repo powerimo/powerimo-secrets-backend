@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 public class AppProperties {
     /// base URL for secret links
-    private String baseUrl = "http://localhost:8080";
+    private String baseUrl = "http://localhost:3000";
 
     /// default TTL of a secret
     private long defaultTtl = 60 * 60 * 24 * 7L;
@@ -55,4 +55,5 @@ public class AppProperties {
      */
     private boolean serviceEndpointEnabled = false;
 
+    private boolean corsDisabled = false;
 }

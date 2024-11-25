@@ -49,7 +49,7 @@ public class SecretManagerService {
     public SecretInfo createSecret(@NonNull SecretRequest request, UserBrowserInfo browserInfo) {
         var entity = addSecret(request, browserInfo);
 
-        var url = appProperties.getBaseUrl() + "/secrets/" + entity.getCode();
+        var url = appProperties.getBaseUrl() + "/" + entity.getCode();
 
         return SecretInfo.builder()
                 .code(entity.getCode())
