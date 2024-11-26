@@ -5,6 +5,9 @@ on:
     branches:
       - 'release/**'
 
+env:
+  SERVER_PROJECT_NAME: powerimo-secrets-server
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,7 +40,7 @@ jobs:
           name: maven-artifacts
           path: |
             powerimo-secrets-api/target/*.jar
-            powerimo-secrets-server/target/*.jar
+            ${SERVER_PROJECT_NAME}/target/*.jar
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       # - name: Update dependency graph
@@ -55,10 +58,10 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./powerimo-secrets-server/
+          context: ./${SERVER_PROJECT_NAME}/
           push: true
           tags: |
-            powerimo/powerimo-secrets-backend:${{ env.RELEASE_VERSION }}
+            powerimo/${SERVER_PROJECT_NAME}:${{ env.RELEASE_VERSION }}
 
       - name: Logout from Docker Hub
         run: docker logout
