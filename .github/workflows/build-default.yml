@@ -45,10 +45,10 @@ jobs:
       if: github.ref == 'refs/heads/qa'
       uses: docker/build-push-action@v3
       with:
-        context: ./${SERVER_PROJECT_NAME}/
+        context: ./${{ env.SERVER_PROJECT_NAME }}/
         push: true
         tags: |
-          powerimo/${SERVER_PROJECT_NAME}:qa
+          powerimo/$${{ env.SERVER_PROJECT_NAME }}:qa
 
     - name: Logout from Docker Hub
       if: github.ref == 'refs/heads/qa'
@@ -74,7 +74,7 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_USER_KEY }}
           source: cicd/bash/deploy-server.sh
-          target: ~/bin/deploy-${SERVER_PROJECT_NAME}.sh
+          target: ~/bin/deploy-${{ env.SERVER_PROJECT_NAME }}.sh
       - name: Deploy to QA
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -83,5 +83,5 @@ jobs:
           key: ${{ secrets.DEPLOY_USER_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            chmod +x ~/bin/deploy-${SERVER_PROJECT_NAME}.sh
-            ~/bin/deploy-${SERVER_PROJECT_NAME}.sh "${SERVER_PROJECT_NAME}-qa" "powerimo/${SERVER_PROJECT_NAME}:qa" "qa"
+            chmod +x ~/bin/deploy-${{ env.SERVER_PROJECT_NAME }}.sh
+            ~/bin/deploy-${{ env.SERVER_PROJECT_NAME }}.sh "${{ env.SERVER_PROJECT_NAME }}-qa" "powerimo/${{ env.SERVER_PROJECT_NAME }}:qa" "qa"
