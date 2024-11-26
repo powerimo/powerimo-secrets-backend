@@ -48,7 +48,7 @@ jobs:
         context: ./${{ env.SERVER_PROJECT_NAME }}/
         push: true
         tags: |
-          powerimo/$${{ env.SERVER_PROJECT_NAME }}:qa
+          powerimo/${{ env.SERVER_PROJECT_NAME }}:qa
 
     - name: Logout from Docker Hub
       if: github.ref == 'refs/heads/qa'
