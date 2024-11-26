@@ -29,10 +29,7 @@ jobs:
 
       - name: Build with Maven
         run: |
-          if [ -n "${{ env.RELEASE_VERSION }}" ]; then
-           mvn -B versions:set -DnewVersion=${{ env.RELEASE_VERSION }}
-          fi
-          mvn -B package --file pom.xml
+          mvn -B versions:set -DnewVersion=${{ env.RELEASE_VERSION }}
 
       - name: Upload Maven Artifacts API
         uses: actions/upload-artifact@v3
