@@ -3,18 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>powerimo-secret-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>powerimo-secret-api</name>
+    <artifactId>powerimo-secrets-api</artifactId>
+    <version>${revision}</version>
+    <name>powerimo-secrets-api</name>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>org.powerimo</groupId>
-        <artifactId>powerimo-secret</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <artifactId>powerimo-secrets</artifactId>
+        <version>${revision}</version>
     </parent>
 
-    <description>Powerimo Secret API</description>
+    <description>Powerimo Secrets API</description>
 
     <properties>
 

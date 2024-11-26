@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.powerimo</groupId>
-    <artifactId>powerimo-secret</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>powerimo-secret</name>
+    <artifactId>powerimo-secrets</artifactId>
+    <version>${revision}</version>
+    <name>powerimo-secrets</name>
     <packaging>pom</packaging>
 
     <modules>
-        <module>powerimo-secret-api</module>
-        <module>powerimo-secret-server</module>
+        <module>powerimo-secrets-api</module>
+        <module>powerimo-secrets-server</module>
     </modules>
 
     <description>Powerimo Secret Backend repository</description>
@@ -43,6 +43,7 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.3.5</spring-boot.version>
+        <revision>0.1.1-SNAPSHOT</revision>
     </properties>
 
     <dependencies>
