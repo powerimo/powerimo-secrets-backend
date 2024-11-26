@@ -54,8 +54,7 @@ jobs:
   deploy-qa:
     runs-on: ubuntu-latest
     needs: build
-    branches:
-      - "qa"
+    if: github.ref == 'refs/heads/qa'
     environment:
       name: qa
 
