@@ -6,6 +6,9 @@ on:
       - "qa"
       - "main"
 
+env:
+  SERVER_PROJECT_NAME: powerimo-secrets-server
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -42,10 +45,10 @@ jobs:
       if: github.ref == 'refs/heads/qa'
       uses: docker/build-push-action@v3
       with:
-        context: ./powerimo-secret-server/
+        context: ./${SERVER_PROJECT_NAME}/
         push: true
         tags: |
-          powerimo/powerimo-secret-backend:qa
+          powerimo/${SERVER_PROJECT_NAME}:qa
 
     - name: Logout from Docker Hub
       if: github.ref == 'refs/heads/qa'
@@ -71,7 +74,7 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_USER_KEY }}
           source: cicd/bash/deploy-server.sh
-          target: ~/bin/deploy-powerimo-secret-server.sh
+          target: ~/bin/deploy-${SERVER_PROJECT_NAME}.sh
       - name: Deploy to QA
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -80,5 +83,5 @@ jobs:
           key: ${{ secrets.DEPLOY_USER_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            chmod +x ~/bin/deploy-powerimo-secret-server.sh
-            ~/bin/deploy-powerimo-secret-server.sh "powerimo-secret-backend-qa" "powerimo/powerimo-secret-backend:qa" "qa"
+            chmod +x ~/bin/deploy-${SERVER_PROJECT_NAME}.sh
+            ~/bin/deploy-${SERVER_PROJECT_NAME}.sh "${SERVER_PROJECT_NAME}-qa" "powerimo/${SERVER_PROJECT_NAME}:qa" "qa"
