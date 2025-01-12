@@ -10,6 +10,7 @@ import org.powerimo.secret.api.models.SecretRequest;
 import org.powerimo.secret.server.AppUtils;
 import org.powerimo.secret.server.config.AppProperties;
 import org.powerimo.secret.server.exceptions.LimitExceededException;
+import org.powerimo.secret.server.exceptions.LinkPasswordException;
 import org.powerimo.secret.server.exceptions.NotFoundException;
 import org.powerimo.secret.server.exceptions.ServerException;
 import org.powerimo.secret.server.generators.CodeGenerator;
@@ -48,17 +49,10 @@ public class SecretManagerService {
      */
     public SecretInfo createSecret(@NonNull SecretRequest request, UserBrowserInfo browserInfo) {
         var entity = addSecret(request, browserInfo);
-
+        var dto = entity.dto();
         var url = appProperties.getBaseUrl() + "/" + entity.getCode();
-
-        return SecretInfo.builder()
-                .code(entity.getCode())
-                .url(url)
-                .createdAt(entity.getCreatedAt())
-                .expiresAt(entity.getExpiresAt())
-                .hitCount(entity.getHitCount())
-                .hitLimit(entity.getHitLimit())
-                .build();
+        dto.setUrl(url);
+        return dto;
     }
 
     /**
@@ -92,6 +86,7 @@ public class SecretManagerService {
             long hitLimit = request.getHitLimit() != null ? request.getHitLimit() : 1L;
             Instant expiresAt;
             var data = cryptService.encrypt(request.getSecret());
+            var passwordData = request.getPassword() != null ? cryptService.encrypt(request.getPassword()) : null;
 
             if (appProperties.isAllowCustomTtl() && request.getTtl() != null) {
                 expiresAt = Instant.now().plus(request.getTtl(), ChronoUnit.SECONDS);
@@ -107,6 +102,7 @@ public class SecretManagerService {
                     .hitLimit(hitLimit)
                     .expiresAt(expiresAt)
                     .createdAt(AppUtils.nowUtc())
+                    .linkPassword(passwordData)
                     .build();
 
             // fill browser info
@@ -146,6 +142,24 @@ public class SecretManagerService {
         }
     }
 
+    public SecretEntity getSecret(String code, String password) throws Exception {
+        var entity = getSecret(code);
+
+        // check link is password protected
+        if (entity.getLinkPassword() != null) {
+            if (password == null)
+                throw new LinkPasswordException("Password is required for opening the link");
+
+            // password is encrypted, need to decrypt
+            var decryptedPassword = cryptService.decrypt(entity.getLinkPassword());
+
+            if (!password.equals(decryptedPassword)) {
+                throw new LinkPasswordException("Password is incorrect");
+            }
+        }
+        return entity;
+    }
+
     /**
      * Get SecretInfo DTO by code
      * @param code code
@@ -164,8 +178,14 @@ public class SecretManagerService {
      * will be raised.
      */
     @Transactional
-    public String hitSecret(@NonNull String code, UserBrowserInfo browserInfo) {
-        var entity = getSecret(code);
+    public String hitSecret(@NonNull String code, UserBrowserInfo browserInfo, String password) throws Exception {
+        SecretEntity entity;
+        try {
+            entity = getSecret(code, password);
+        } catch (LinkPasswordException ex) {
+            log.error("[{}] check password failed: {}", code, ex.getMessage());
+            throw ex;
+        }
 
         // check hit by hit count
         if (entity.getHitCount() != null && entity.getHitCount() >= entity.getHitLimit()) {
