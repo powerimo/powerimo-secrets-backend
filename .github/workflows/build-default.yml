@@ -5,6 +5,10 @@ on:
     branches:
       - "qa"
       - "main"
+  pull_request:
+    branches:
+      - "main"
+      - "qa"
 
 env:
   SERVER_PROJECT_NAME: powerimo-secrets-server
