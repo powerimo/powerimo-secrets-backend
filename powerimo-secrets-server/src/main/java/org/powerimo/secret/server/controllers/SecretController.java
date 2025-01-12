@@ -8,6 +8,7 @@ import org.powerimo.secret.api.models.SecretInfo;
 import org.powerimo.secret.api.models.SecretRequest;
 import org.powerimo.secret.server.AppUtils;
 import org.powerimo.secret.server.exceptions.LimitExceededException;
+import org.powerimo.secret.server.exceptions.LinkPasswordException;
 import org.powerimo.secret.server.exceptions.NotFoundException;
 import org.powerimo.secret.server.services.SecretManagerService;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +31,19 @@ public class SecretController {
     @GetMapping("{code}")
     public ResponseEntity<String> getSecret(
             HttpServletRequest request,
-            @PathVariable("code") String code) {
-
+            @PathVariable("code") String code,
+            @RequestParam(required = false, name = "password") String password) {
         try {
             var browserInfo = AppUtils.extractUserBrowserInfo(request);
-            return ResponseEntity.ok(secretManagerService.hitSecret(code, browserInfo));
+            return ResponseEntity.ok(secretManagerService.hitSecret(code, browserInfo, password));
         } catch (LimitExceededException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (LinkPasswordException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 

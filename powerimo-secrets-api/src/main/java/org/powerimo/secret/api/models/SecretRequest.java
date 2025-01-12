@@ -12,4 +12,5 @@ public class SecretRequest {
     private String secret;
     private Long ttl;
     private Long hitLimit;
+    private String password;
 }

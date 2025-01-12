@@ -16,7 +16,7 @@ import java.util.Base64;
 public class CryptService {
     private final AppProperties appProperties;
 
-    // Метод для генерации секретного ключа на основе текстового ключа
+    // Method for generate secret key base on text key
     public SecretKey getKeyFromText(String keyText) {
         if (keyText == null || keyText.isEmpty())
             throw new IllegalArgumentException("Crypt key is not set");

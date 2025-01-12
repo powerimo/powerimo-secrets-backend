@@ -28,6 +28,7 @@ public class SecretEntity {
     private String registrarAgent;
     private Instant createdAt;
     private Instant updatedAt;
+    private String linkPassword;
 
     public SecretInfo dto() {
         return SecretInfo.builder()
